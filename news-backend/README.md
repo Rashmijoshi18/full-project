@@ -21,6 +21,14 @@ GNEWS_API_KEY=your_api_key_here
 PORT=5000
 ```
 
+⚠️ **SECURITY ALERT:** Never commit `.env` to version control. Add to `.gitignore`.
+
+For MongoDB Atlas, use format:
+
+```env
+MONGO_URI=mongodb+srv://<YOUR_USERNAME>:<YOUR_PASSWORD>@cluster.mongodb.net/news_app?retryWrites=true
+```
+
 Get your free GNews API key at [gnews.io](https://gnews.io)
 
 ## Project Structure
@@ -252,12 +260,14 @@ curl http://localhost:5000/api/articles?topic=technology
 
 1. Create account at [mongodb.com](https://mongodb.com)
 2. Create cluster and database
-3. Get connection string
-4. Set `MONGO_URI` in `.env`:
+3. Get connection string from your cluster
+4. Set `MONGO_URI` in `.env` using this format:
 
+```env
+MONGO_URI=mongodb+srv://<YOUR_USERNAME>:<YOUR_PASSWORD>@cluster.mongodb.net/news_app?retryWrites=true
 ```
-MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/news_app?retryWrites=true
-```
+
+⚠️ **SECURITY:** Replace `<YOUR_USERNAME>` and `<YOUR_PASSWORD>` with actual credentials. Never commit `.env` to git.
 
 ## Notes
 
@@ -265,6 +275,19 @@ MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/news_app?retryWrites=true
 - Frontend expects responses with `articles` array
 - All article timestamps are in UTC
 - Topic filtering works on saved articles only (frontend filters GNews to topic)
+
+## Security Best Practices
+
+⚠️ **CRITICAL:** Never expose credentials in code or version control.
+
+- **Always use `.env` file** for secrets (not committed to git)
+- **Ensure `.env` is in `.gitignore`** - Prevents accidental exposure
+- If credentials are exposed:
+  1. Rotate MongoDB Atlas password immediately
+  2. Regenerate GNews API key
+  3. Review access logs for unauthorized usage
+  4. Update `.env` with new credentials
+  5. Commit a clean version to git (no secrets)
 
 ## Troubleshooting
 

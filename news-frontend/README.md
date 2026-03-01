@@ -290,6 +290,16 @@ No `.env` file needed for frontend - configuration is in `src/api.js`.
 - **Minimal re-renders** - Optimized React state
 - **Hot Module Replacement** - Zero-config HMR in dev
 
+## Security
+
+⚠️ **IMPORTANT:** Frontend doesn't handle secrets directly, but ensure backend credentials are protected.
+
+- **Never hardcode API keys** in frontend code
+- **Don't expose backend URL** in production (use same-origin or proxy)
+- **Keep `.env` files out of git** (backend responsibility)
+- **Use HTTPS** in production
+- **CORS configuration** - Backend should restrict origins properly
+
 ## Troubleshooting
 
 **"Cannot reach backend"**

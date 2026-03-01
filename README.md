@@ -245,17 +245,61 @@ POST body:
 
 ### Backend (.env)
 
-```
+**⚠️ SECURITY:** Do NOT commit `.env` file. Ensure it's in `.gitignore`
+
+```env
 MONGO_URI=mongodb://localhost:27017/news_app
 GNEWS_API_KEY=your_gnews_api_key
 PORT=5000
 NODE_ENV=development
 ```
 
+**For MongoDB Atlas, use this format:**
+
+```env
+MONGO_URI=mongodb+srv://<YOUR_USERNAME>:<YOUR_PASSWORD>@cluster.mongodb.net/news_app?retryWrites=true
+```
+
 ### Frontend
 
 Frontend connects to backend at `http://localhost:5000/api` (hardcoded in `src/api.js`).
 Update the `baseURL` if deploying to a different backend URL.
+
+## Security
+
+⚠️ **CRITICAL:** Never expose credentials in code, repositories, or version control.
+
+### Protecting Sensitive Data
+
+1. **Keep `.env` file local only:**
+   - Never commit `.env` to git
+   - Ensure `.env` is listed in `.gitignore`
+   - Use `.env.example` with placeholder values for documentation
+
+2. **If credentials are exposed:**
+   - Rotate MongoDB Atlas password immediately
+   - Regenerate GNews API key at [gnews.io](https://gnews.io)
+   - Review access logs for unauthorized activity
+   - Update `.env` with new credentials
+   - Force push to remove sensitive commits (if necessary)
+   - Use git history cleanup if needed: `git filter-branch`
+
+3. **On Production:**
+   - Use environment variables provided by hosting platform
+   - Never use local `.env` files
+   - Use secrets management tools (AWS Secrets Manager, Vercel Secrets, etc.)
+
+### Quick Check for Exposed Secrets
+
+```bash
+# Check git history for .env file
+git log --all --full-history -- news-backend/.env
+
+# If found, remove from history (then rotate credentials!)
+git filter-branch --tree-filter 'rm -f news-backend/.env' HEAD
+```
+
+See `.env.example` in `news-backend/` for safe template format.
 
 ## Troubleshooting
 
