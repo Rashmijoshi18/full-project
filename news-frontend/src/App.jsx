@@ -4,26 +4,41 @@ import {
   Route,
   NavLink,
 } from "react-router-dom";
+import { useState } from "react";
 import Home from "./pages/Home";
 import Saved from "./pages/Saved";
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <Router>
       <nav className="navbar">
-        <NavLink
-          to="/"
-          end
-          className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/saved"
-          className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
-        >
-          Saved
-        </NavLink>
+        <div className="brand">NewsApp</div>
+        <div className="hamburger" onClick={() => setMenuOpen((open) => !open)}>
+          &#9776;
+        </div>
+        <div className={"nav-links" + (menuOpen ? " open" : "")}>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              "nav-link" + (isActive ? " active" : "")
+            }
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/saved"
+            className={({ isActive }) =>
+              "nav-link" + (isActive ? " active" : "")
+            }
+            onClick={() => setMenuOpen(false)}
+          >
+            Saved
+          </NavLink>
+        </div>
       </nav>
 
       <Routes>
