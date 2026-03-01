@@ -1,42 +1,22 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 
 function Saved() {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/articles")
+    API.get("/articles")
       .then((res) => setArticles(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h1>💾 Saved Articles</h1>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          gap: "20px",
-        }}
-      >
+      <div className="news-grid">
         {articles.map((a, i) => (
-          <div
-            key={i}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "15px",
-            }}
-          >
-            {a.urlToImage && (
-              <img
-                src={a.urlToImage}
-                alt="news"
-                style={{ width: "100%", borderRadius: "8px" }}
-              />
-            )}
+          <div key={i} className="news-card">
+            {a.urlToImage && <img src={a.urlToImage} alt="news" />}
             <h3>{a.title}</h3>
             <p>{a.description}</p>
             <a href={a.url} target="_blank">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api";
 
 function Home() {
   const [articles, setArticles] = useState([]);
@@ -23,9 +23,7 @@ function Home() {
   const fetchNews = async (selectedCountry) => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `http://localhost:5000/api/news?country=${selectedCountry}`
-      );
+      const res = await API.get(`/news?country=${selectedCountry}`);
       setArticles(res.data.articles || res.data.articles || []); // depending on API structure
     } catch (err) {
       console.error(err);
@@ -40,18 +38,17 @@ function Home() {
   }, [country]);
 
   const saveArticle = (article) => {
-    axios
-      .post("http://localhost:5000/api/articles", article)
+    API.post("/articles", article)
       .then(() => alert("Article saved!"))
       .catch((err) => console.error(err));
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Top News</h1>
+    <div className="container">
+      <h1 className="header">Top News</h1>
 
       {/* Country Selector */}
-      <div style={{ marginBottom: "20px" }}>
+      <div className="select-country">
         <label>Select Country: </label>
         <select value={country} onChange={(e) => setCountry(e.target.value)}>
           {countries.map((c) => (
@@ -63,30 +60,13 @@ function Home() {
       </div>
 
       {loading ? (
-        <p>Loading news...</p>
+        <p className="loading">Loading news...</p>
       ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "20px",
-          }}
-        >
+        <div className="news-grid">
           {articles.map((a, i) => (
-            <div
-              key={i}
-              style={{
-                border: "1px solid #ccc",
-                padding: "15px",
-                borderRadius: "8px",
-              }}
-            >
+            <div key={i} className="news-card">
               {a.image && ( // GNews uses `image` instead of `urlToImage`
-                <img
-                  src={a.image}
-                  alt="news"
-                  style={{ width: "100%", borderRadius: "8px" }}
-                />
+                <img src={a.image} alt="news" />
               )}
               <h3>{a.title}</h3>
               <p>{a.description}</p>
@@ -94,7 +74,9 @@ function Home() {
                 Read More
               </a>
               <br />
-              <button onClick={() => saveArticle(a)}>Save</button>
+              <button className="btn" onClick={() => saveArticle(a)}>
+                Save
+              </button>
             </div>
           ))}
         </div>
