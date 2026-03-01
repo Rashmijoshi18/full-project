@@ -5,11 +5,11 @@ import Saved from "./pages/Saved";
 function App() {
   return (
     <Router>
-      <nav style={{ padding: "15px", background: "#333", color: "white" }}>
-        <Link to="/" style={{ marginRight: "15px", color: "white" }}>
+      <nav className="navbar">
+        <Link to="/" className="nav-link">
           Home
         </Link>
-        <Link to="/saved" style={{ color: "white" }}>
+        <Link to="/saved" className="nav-link">
           Saved
         </Link>
       </nav>
