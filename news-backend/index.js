@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
     <p>Use <code>/api/news?country=us</code> to fetch news.</p>
     <p>Optional query params: <code>topic</code> and <code>q</code> (keyword)</p>
     <p>Example: <code>/api/news?country=in&topic=technology&q=bitcoin</code></p>
+    <p>You can also fetch saved articles by category: <code>/api/articles?topic=business</code></p>
   `);
 });
 

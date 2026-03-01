@@ -12,7 +12,12 @@ export const saveArticle = async (req, res) => {
 
 export const getArticles = async (req, res) => {
   try {
-    const articles = await Article.find();
+    const filter = {};
+    if (req.query.topic) {
+      filter.topic = req.query.topic;
+    }
+
+    const articles = await Article.find(filter);
     res.json(articles);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch saved articles" });
